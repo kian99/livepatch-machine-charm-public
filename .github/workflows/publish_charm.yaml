@@ -10,7 +10,13 @@ on:
 
 jobs:
   publish-to-edge:
-    uses: canonical/operator-workflows/.github/workflows/publish_charm.yaml@main
-    secrets: inherit
-    with:
-      channel: ops1.x/edge
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload charm to charmhub
+        uses: canonical/charming-actions/upload-charm@main
+        with:
+          credentials: "${{ secrets.CHARMHUB_TOKEN }}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          channel: "ops1.x/edge"
